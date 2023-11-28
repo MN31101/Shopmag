@@ -5,7 +5,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+datasource products_db {
+  provider = "sqlserver"
+  url      = env("PRODUCTS_DATABASA_URL")
 }
