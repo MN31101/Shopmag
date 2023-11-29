@@ -5,7 +5,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource products_db {
-  provider = "sqlserver"
-  url      = env("PRODUCTS_DATABASA_URL")
+datasource postgre {
+  provider = "postgresql"
+  url      = env("postgre")
 }
