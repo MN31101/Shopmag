@@ -5,56 +5,56 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource postgre {
+datasource db {
   provider = "postgresql"
-  url      = env("postgre")
+  url      = env("DATABASE_URL")
 }
 
-model Products {
-  id       Int     @id @default(autoincrement())
-  name     String
-  category String
-  amount   Decimal
-  price    Decimal
+model Product {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  category          String
+  amount            Decimal
+  price             Decimal
+  IntermediateTable IntermediateTable[]
 }
 
 model Customer {
-  id                Int                 @id @default(autoincrement())
-  firstName         String
-  lastName          String
-  middleName        String
-  email             String              @unique
-  birthDate         DateTime?
-  Order             Order[]
-  IntermediateTable IntermediateTable[]
+  id         Int       @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  middleName String
+  email      String    @unique
+  birthDate  DateTime?
+  Order      Order[]
 }
 
 model Employee {
-  id                Int                 @id @default(autoincrement())
-  firstName         String
-  lastName          String
-  middleName        String
-  position          String
-  Order             Order[]
-  IntermediateTable IntermediateTable[]
+  id         Int     @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  middleName String
+  position   String
+  Order      Order[]
 }
 
 model Order {
-  id           Int      @id @default(autoincrement())
-  employeeId   Int
-  customerId   Int
-  orderAddress String
-  deliveryCost Decimal
-  orderDate    DateTime @default(now())
-  employee     Employee @relation(fields: [employeeId], references: [id])
-  customer     Customer @relation(fields: [customerId], references: [id])
+  id                Int                 @id @default(autoincrement())
+  employeeId        Int
+  customerId        Int
+  orderAddress      String
+  deliveryCost      Decimal
+  orderDate         DateTime            @default(now())
+  employee          Employee            @relation(fields: [employeeId], references: [id])
+  customer          Customer            @relation(fields: [customerId], references: [id])
+  IntermediateTable IntermediateTable[]
 }
 
 model IntermediateTable {
-  employeesId Int
-  customersId Int
-  employee    Employee @relation(fields: [employeesId], references: [id])
-  customer    Customer @relation(fields: [customersId], references: [id])
+  orderId   Int
+  productId Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 
-  @@id([employeesId, customersId])
+  @@id([orderId, productId])
 }
